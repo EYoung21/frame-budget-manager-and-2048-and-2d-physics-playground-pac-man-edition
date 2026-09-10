@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D Physics Playground — Pac-Man Edition</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="wrap">
+    <h1>2D Physics Playground</h1>
+    <p class="subtitle">A Pac-Man-flavored demo of AABB collision detection, broad/narrow-phase resolution and impulse-based physics.</p>
+
+    <div class="layout">
+      <div class="world-panel">
+        <div class="panel-title">Game World</div>
+        <svg id="viz" width="544" height="384"></svg>
+      </div>
+
+      <div class="side-panel">
+        <div class="card">
+          <div class="card-title">Legend</div>
+          <ul class="legend">
+            <li><span class="swatch player-swatch"></span> player <small>(velocity-driven)</small></li>
+            <li><span class="swatch static-swatch"></span> static <small>(walls, AABB)</small></li>
+          <label class="debug-toggle"><input type="checkbox" id="showDebug" checked> Show spatial grid + AABB overlay</label>
+          <label class="debug-toggle"><input type="checkbox" id="showDebug" checked> Show spatial grid + AABB overlay</label>
+            <li><span class="swatch dynamic-swatch"></span> dynamic <small>(ghosts, AABB)</small></li>
+          </ul>
+          <p class="hint">Broad-phase uses a spatial grid to cull pairs before narrow-phase AABB checks resolve overlap + impulses.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Controls</div>
+          <div class="dpad">
+            <button class="dbtn up" data-dir="up">↑</button>
+            <div class="dpad-row">
+              <button class="dbtn" data-dir="left">←</button>
+              <button class="dbtn" data-dir="down">↓</button>
+              <button class="dbtn" data-dir="right">→</button>
+            </div>
+          </div>
+          <label class="speed-label">Speed
+            <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1">
+            <span id="speedVal">1.0x</span>
+          </label>
+          <button id="resetBtn" class="reset-btn">Reset</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Stats</div>
+          <div class="stat">Bodies: <span id="bodiesCount">0</span></div>
+          <div class="stat">Collisions: <span id="collisionCount">0</span></div>
+          <div class="stat">Score: <span id="scoreCount">0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="script.js"></script>
+</body>
+</html>
