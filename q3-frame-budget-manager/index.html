@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frame Budget Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Frame Budget Manager</h1>
+      <p class="subtitle">Target 60 FPS &middot; ~16.7ms / frame &nbsp;|&nbsp; FPS: <span id="fps-counter">--</span> &nbsp;|&nbsp; monitor overhead: <span id="overhead-value">--</span>ms</p>
+    </header>
+
+    <main id="main">
+      <section class="panel" id="subsystem-panel">
+        <h2>Subsystem Frame Time</h2>
+        <div class="cap-line">budget cap 16.7ms &rarr;</div>
+        <div id="warning-banner" class="warning hidden">&#9888; Asset load spike</div>
+
+        <div class="sub-row" data-sub="input">
+          <span class="sub-label">Input</span>
+          <div class="bar-track"><div class="cap-marker" id="input-cap-marker"></div><div class="bar-fill ok" id="input-bar-fill"></div></div>
+          <span class="sub-value" id="input-value">0.0ms</span>
+          <span class="sub-flag" id="input-flag"></span>
+        </div>
+        <div class="sub-row" data-sub="logic">
+          <span class="sub-label">Game Logic</span>
+          <div class="bar-track"><div class="cap-marker" id="logic-cap-marker"></div><div class="bar-fill ok" id="logic-bar-fill"></div></div>
+          <span class="sub-value" id="logic-value">0.0ms</span>
+          <span class="sub-flag" id="logic-flag"></span>
+        </div>
+        <div class="sub-row" data-sub="render">
+          <span class="sub-label">Render</span>
+          <div class="bar-track"><div class="cap-marker" id="render-cap-marker"></div><div class="bar-fill ok" id="render-bar-fill"></div></div>
+          <span class="sub-value" id="render-value">0.0ms</span>
+          <span class="sub-flag" id="render-flag"></span>
+        </div>
+        <div class="sub-row" data-sub="audio">
+          <span class="sub-label">Audio</span>
+          <div class="bar-track"><div class="cap-marker" id="audio-cap-marker"></div><div class="bar-fill ok" id="audio-bar-fill"></div></div>
+          <span class="sub-value" id="audio-value">0.0ms</span>
+          <span class="sub-flag" id="audio-flag"></span>
+        </div>
+
+        <div class="stress-row">
+          <span class="stress-label">Simulate load:</span>
+          <button id="gc-pause-btn" class="stress-btn">GC Pause (100ms+)</button>
+          <button id="asset-spike-btn" class="stress-btn">Asset Load Spike</button>
+          <button id="ai-spike-btn" class="stress-btn">AI Combat Spike</button>
+        </div>
+      </section>
+
+      <section class="panel" id="tuning-panel">
+        <h2>Tuning</h2>
+        <div class="tune-row">
+          <label for="responsiveness-slider">Responsiveness</label>
+          <div class="slider-row">
+            <span class="slider-end">chunky</span>
+            <input type="range" id="responsiveness-slider" min="0" max="100" value="50">
+            <span class="slider-end">smooth</span>
+          </div>
+          <span class="tune-value" id="responsiveness-value">50</span>
+        </div>
+        <div class="tune-row">
+          <label for="quality-slider">Render Quality</label>
+          <div class="slider-row">
+            <input type="range" id="quality-slider" min="20" max="100" value="100">
+          </div>
+          <span class="tune-value" id="quality-value">100%</span>
+        </div>
+        <div class="tune-row checkbox-row">
+          <label for="defer-checkbox">Defer non-critical work</label>
+          <input type="checkbox" id="defer-checkbox" checked>
+        </div>
+        <button id="apply-budget-btn" class="apply-btn">Apply Budget</button>
+        <p class="adaptive-indicator hidden" id="adaptive-indicator">&#9881; Adaptive quality reduction active</p>
+        <p class="status-log" id="status-log"></p>
+      </section>
+
+      <section class="panel wide" id="timeline-panel">
+        <h2>Frame Timeline &amp; Deferral Queue</h2>
+        <p class="hint">frame timeline (skipped = red)</p>
+        <div id="frame-timeline"></div>
+        <div class="queue-block">
+          <h3>Deferred Queue</h3>
+          <ul id="deferred-queue-list"><li class="empty">No deferred work</li></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+        <div id="warning-banner" class="warning hidden">&#9888; Asset load spike</div>
+
+        <div class="sub-row" data-sub="input">
+          <span class="sub-label">Input</span>
+          <div class="bar-track"><div class="cap-marker" id="input-cap-marker"></div><div class="bar-fill ok" id="input-bar-fill"></div></div>
+          <span class="sub-value" id="input-value">0.0ms</span>
+          <span class="sub-flag" id="input-flag"></span>
+        </div>
+        <div class="sub-row" data-sub="logic">
+          <span class="sub-label">Game Logic</span>
+          <div class="bar-track"><div class="cap-marker" id="logic-cap-marker"></div><div class="bar-fill ok" id="logic-bar-fill"></div></div>
+          <span class="sub-value" id="logic-value">0.0ms</span>
+          <span class="sub-flag" id="logic-flag"></span>
+        </div>
+        <div class="sub-row" data-sub="render">
+          <span class="sub-label">Render</span>
+          <div class="bar-track"><div class="cap-marker" id="render-cap-marker"></div><div class="bar-fill ok" id="render-bar-fill"></div></div>
+          <span class="sub-value" id="render-value">0.0ms</span>
+          <span class="sub-flag" id="render-flag"></span>
+        </div>
+        <div class="sub-row" data-sub="audio">
+          <span class="sub-label">Audio</span>
+          <div class="bar-track"><div class="cap-marker" id="audio-cap-marker"></div><div class="bar-fill ok" id="audio-bar-fill"></div></div>
+          <span class="sub-value" id="audio-value">0.0ms</span>
+          <span class="sub-flag" id="audio-flag"></span>
+        </div>
+
+        <div class="stress-row">
+          <span class="stress-label">Simulate load:</span>
+          <button id="gc-pause-btn" class="stress-btn">GC Pause (100ms+)</button>
+          <button id="asset-spike-btn" class="stress-btn">Asset Load Spike</button>
+          <button id="ai-spike-btn" class="stress-btn">AI Combat Spike</button>
+        </div>
+      </section>
+
+      <section class="panel" id="tuning-panel">
+        <h2>Tuning</h2>
+        <div class="tune-row">
+          <label for="responsiveness-slider">Responsiveness</label>
+          <div class="slider-row">
+            <span class="slider-end">chunky</span>
+            <input type="range" id="responsiveness-slider" min="0" max="100" value="50">
+            <span class="slider-end">smooth</span>
+          </div>
+          <span class="tune-value" id="responsiveness-value">50</span>
+        </div>
+        <div class="tune-row">
+          <label for="quality-slider">Render Quality</label>
+          <div class="slider-row">
+            <input type="range" id="quality-slider" min="20" max="100" value="100">
+          </div>
+          <span class="tune-value" id="quality-value">100%</span>
+        </div>
+        <div class="tune-row checkbox-row">
+          <label for="defer-checkbox">Defer non-critical work</label>
+          <input type="checkbox" id="defer-checkbox" checked>
+        </div>
+        <button id="apply-budget-btn" class="apply-btn">Apply Budget</button>
+        <p class="adaptive-indicator hidden" id="adaptive-indicator">&#9881; Adaptive quality reduction active</p>
+        <p class="status-log" id="status-log"></p>
+      </section>
+
+      <section class="panel wide" id="timeline-panel">
+        <h2>Frame Timeline &amp; Deferral Queue</h2>
+        <p class="hint">frame timeline (skipped = red)</p>
+        <div id="frame-timeline"></div>
+        <div class="queue-block">
+          <h3>Deferred Queue</h3>
+          <ul id="deferred-queue-list"><li class="empty">No deferred work</li></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
