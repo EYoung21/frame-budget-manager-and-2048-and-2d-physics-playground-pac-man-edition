@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="top-bar">
+      <h1 class="title">2048</h1>
+      <div class="scores">
+        <div class="score-box">
+          <span class="score-label">SCORE</span>
+          <span id="score" class="score-value">0</span>
+        </div>
+        <div class="score-box">
+          <span class="score-label">BEST</span>
+          <span id="best-score" class="score-value">0</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="controls-row">
+      <p class="instructions">Join the tiles, get to <strong>2048!</strong> Use arrow keys / WASD.</p>
+      <button id="new-game-btn" class="new-game-btn">New Game</button>
+    </div>
+
+    <main class="board-wrap">
+      <div id="board" class="board">
+        <!-- background grid cells -->
+        <div class="grid-cells" id="grid-cells"></div>
+        <!-- tiles get rendered here -->
+        <div class="tile-layer" id="tile-layer"></div>
+      </div>
+
+      <div id="overlay" class="overlay hidden">
+        <div class="overlay-content">
+          <p id="overlay-message" class="overlay-message">You win!</p>
+          <button id="overlay-btn" class="new-game-btn">Try Again</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
